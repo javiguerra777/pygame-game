@@ -4,7 +4,7 @@ import math
 import random
 
 class Player(pygame.sprite.Sprite):
-  def __init__(self, game, x, y):
+  def __init__(self, game, x, y, hp):
     self.game = game
     self.player = PLAYER_LAYER
     self.groups = self.game.all_sprites
@@ -14,6 +14,7 @@ class Player(pygame.sprite.Sprite):
     self.y = y * TILE_SIZE
     self.width = TILE_SIZE
     self.height = TILE_SIZE
+    self.hp = hp
 
     self.x_change = 0
     self.y_change = 0
@@ -56,7 +57,7 @@ class Player(pygame.sprite.Sprite):
   def collide_enemy(self):
     hits = pygame.sprite.spritecollide(self, self.game.enemies, False)
     if hits:
-      print('begin battle')
+      print(self.hp)
      
   def collide_blocks(self, direction):
     if direction == "x":
@@ -75,7 +76,7 @@ class Player(pygame.sprite.Sprite):
           self.rect.y = hits[0].rect.bottom
 
 class Enemy(pygame.sprite.Sprite):
-  def __init__(self, game, x, y):
+  def __init__(self, game, x, y, hp):
     self.game = game
     self._layer = ENEMY_LAYER
     self.groups = self.game.all_sprites, self.game.enemies
