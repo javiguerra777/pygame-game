@@ -57,7 +57,12 @@ class Player(pygame.sprite.Sprite):
   def collide_enemy(self):
     hits = pygame.sprite.spritecollide(self, self.game.enemies, False)
     if hits:
+      self.hp -= 5
       print(self.hp)
+      if self.hp <= 0:
+        self.kill
+        self.game.playing = False
+      
      
   def collide_blocks(self, direction):
     if direction == "x":
@@ -87,7 +92,7 @@ class Enemy(pygame.sprite.Sprite):
     self.width = TILE_SIZE
     self.height = TILE_SIZE
     self.hp = hp
-    
+
     self.x_change = 0
     self.y_change = 0
 
