@@ -86,7 +86,8 @@ class Enemy(pygame.sprite.Sprite):
     self.y = y * TILE_SIZE
     self.width = TILE_SIZE
     self.height = TILE_SIZE
-
+    self.hp = hp
+    
     self.x_change = 0
     self.y_change = 0
 
