@@ -15,6 +15,7 @@ RED = (255,0,0)
 BLACK = (0,0,0)
 BLUE = (0,0,255)
 ORANGE = (255, 127, 0)
+WHITE = (255,255,255)
 
 tilemap = [
   'BBBBBBBBBBBBBBBBBBBB',
