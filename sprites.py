@@ -4,9 +4,9 @@ import math
 import random
 
 class Player(pygame.sprite.Sprite):
-  def __init__(self, game, x, y, hp):
+  def __init__(self, game, x, y, hp, moves):
     self.game = game
-    self.player = PLAYER_LAYER
+    self._layer = PLAYER_LAYER
     self.groups = self.game.all_sprites
     pygame.sprite.Sprite.__init__(self, self.groups)
 
@@ -15,6 +15,7 @@ class Player(pygame.sprite.Sprite):
     self.width = TILE_SIZE
     self.height = TILE_SIZE
     self.hp = hp
+    self.moves = moves
 
     self.x_change = 0
     self.y_change = 0
@@ -41,24 +42,25 @@ class Player(pygame.sprite.Sprite):
 
   def movement(self):
     keys = pygame.key.get_pressed()
-    if(keys[pygame.K_LEFT]):
+    if(keys[pygame.K_LEFT] and self.game.state == "overworld"):
       self.x_change -= PLAYER_SPEED
       self.facing = 'left'
-    if(keys[pygame.K_RIGHT]):
+    if(keys[pygame.K_RIGHT] and self.game.state == "overworld"):
       self.x_change += PLAYER_SPEED
       self.facing = 'right'
-    if(keys[pygame.K_UP]):
+    if(keys[pygame.K_UP] and self.game.state == "overworld"):
       self.y_change -= PLAYER_SPEED
       self.facing = 'up'
-    if(keys[pygame.K_DOWN]):
+    if(keys[pygame.K_DOWN] and self.game.state == "overworld"):
       self.y_change += PLAYER_SPEED
       self.facing = 'down'
 
   def collide_enemy(self):
     hits = pygame.sprite.spritecollide(self, self.game.enemies, False)
     if hits:
-      self.hp -= 5
-      print(self.hp)
+      self.game.playing = False
+      # self.hp -= 5
+      # print(self.hp)
       if self.hp <= 0:
         self.kill
         self.game.playing = False
@@ -81,7 +83,7 @@ class Player(pygame.sprite.Sprite):
           self.rect.y = hits[0].rect.bottom
 
 class Enemy(pygame.sprite.Sprite):
-  def __init__(self, game, x, y, hp):
+  def __init__(self, game, x, y, hp, attacks):
     self.game = game
     self._layer = ENEMY_LAYER
     self.groups = self.game.all_sprites, self.game.enemies
@@ -92,6 +94,7 @@ class Enemy(pygame.sprite.Sprite):
     self.width = TILE_SIZE
     self.height = TILE_SIZE
     self.hp = hp
+    self.attacks = attacks
 
     self.x_change = 0
     self.y_change = 0
